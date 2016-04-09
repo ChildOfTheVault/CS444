@@ -1,0 +1,2 @@
+kernel/sound/core/seq/snd-seq-midi.ko
+kernel/sound/core/snd-rawmidi.ko

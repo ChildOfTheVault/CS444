@@ -1,0 +1,6 @@
+linux-yocto-3.14/.tmp_vmlinux2
+linux-yocto-3.14/vmlinux
+linux-yocto-3.14/vmlinux.o
+linux-yocto-3.14/core-image-lsb-sdk-qemux86.ext3
+linux-yocto-3.14/.tmp_vmlinux1
+linux-yocto-3.14/drivers/built-in.o

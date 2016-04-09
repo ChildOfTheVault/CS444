@@ -1,0 +1,9 @@
+kernel/drivers/net/mii.ko
+kernel/drivers/net/netconsole.ko
+kernel/drivers/net/virtio_net.ko
+kernel/drivers/net/ethernet/amd/pcnet32.ko
+kernel/drivers/net/ethernet/broadcom/tg3.ko
+kernel/drivers/net/ethernet/intel/e100.ko
+kernel/drivers/net/ethernet/intel/e1000/e1000.ko
+kernel/drivers/net/ethernet/intel/e1000e/e1000e.ko
+kernel/drivers/net/phy/libphy.ko
