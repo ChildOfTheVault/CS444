@@ -5,5 +5,5 @@
 #define ZO_startup_32 0x00000000
 #define ZO_z_extract_offset 0x006ac000
 #define ZO_z_extract_offset_negative 0xff954000
-#define ZO_z_input_len 0x005efb97
+#define ZO_z_input_len 0x005efba5
 #define ZO_z_output_len 0x00c8a6ac
