@@ -12,23 +12,60 @@ struct sstf_data {
 	struct list_head queue;
 };
 
+static sector_t prev_sector;
+
 static void sstf_merged_requests(struct request_queue *q, struct request *rq,
 				 struct request *next)
 {
 	list_del_init(&next->queuelist);
 }
+
 /*One of the only functions that is changed in converting from NOOP to SSTF implementation.
  *SSTF dispatches a request differently.
  */
 static int sstf_dispatch(struct request_queue *q, int force)
 {
 	struct sstf_data *nd = q->elevator->elevator_data;
-
+	struct request *near_rq;
+	int temp = -1;
+	int near = -1;
+	
 	if (!list_empty(&nd->queue)) {
 		struct request *rq;
-		rq = list_entry(nd->queue.next, struct request, queuelist);
-		list_del_init(&rq->queuelist);
-		elv_dispatch_sort(q, rq);
+		if (nd->queue_count == 1) {
+                	list_del_init(&rq->queuelist);
+                	nd->queue_count--;
+                }
+		else {
+			list_for_each_entry(rq, &nd->queue, queuelist) {
+				if (rq == 0) {
+					printk("Add request rd failed in sstf_dispatch\n");
+					return 0;
+				}
+				sector_t sec = blk_rq_pos(rq);
+        			if (prev_sector >= sec) {
+        				temp = prev_sector - sec;
+        			} 
+				else {
+        				temp = sec - prev_sector;
+       				}
+		        	sec = blk_rq_pos(rq);
+				if (near > temp || near == -1) {
+					near = temp;
+					near_rq = rq;
+				}
+			}
+			prev_sector = blk_rq_sectors(near_rq) + blk_rq_pos(near_rq);
+                	list_del_init(&near_rq->queuelist);
+                	elv_dispatch_add_tail(q, near_rq); 
+		}
+
+		/*NOOP Code*/
+		//rq = list_entry(nd->queue.next, struct request, queuelist);
+		//list_del_init(&rq->queuelist);
+		//elv_dispatch_sort(q, rq);
+		
+		printk("SSTF dis %llu\n", (unsigned long long)blk_rq_pos(near_rq));
 		return 1;
 	}
 	return 0;
@@ -38,9 +75,12 @@ static int sstf_dispatch(struct request_queue *q, int force)
 static void sstf_add_request(struct request_queue *q, struct request *rq)
 {
 	struct sstf_data *nd = q->elevator->elevator_data;
+	int req_added = 0;
+	printk("SSTF add pos %llu\n", (unsigned long long)blk_rq_pos(rq));
+	
 
 	list_add_tail(&rq->queuelist, &nd->queue);
-	printk("SSTF add pos %llu\n", (unsigned long long)blk_rq_pos(rq));
+	printk("Queue count: %d\n", nd->queue_count);
 }
 
 /* Mostly untouched*/
