@@ -1,3 +1,0 @@
-kernel/drivers/block/floppy.ko
-kernel/drivers/block/nbd.ko
-kernel/drivers/block/cryptoloop.ko

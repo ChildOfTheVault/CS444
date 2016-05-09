@@ -1,6 +1,0 @@
-kernel/drivers/net/wireless/rt2x00/rt2x00lib.ko
-kernel/drivers/net/wireless/rt2x00/rt2x00mmio.ko
-kernel/drivers/net/wireless/rt2x00/rt2x00pci.ko
-kernel/drivers/net/wireless/rt2x00/rt2800lib.ko
-kernel/drivers/net/wireless/rt2x00/rt2800mmio.ko
-kernel/drivers/net/wireless/rt2x00/rt2800pci.ko

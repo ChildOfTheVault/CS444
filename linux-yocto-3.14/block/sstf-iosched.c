@@ -29,20 +29,21 @@ static int sstf_dispatch(struct request_queue *q, int force)
 	struct request *near_rq;
 	int temp = -1;
 	int near = -1;
-	
+	sector_t sec;
+
 	if (!list_empty(&nd->queue)) {
 		struct request *rq;
-		if (nd->queue_count == 1) {
-                	list_del_init(&rq->queuelist);
-                	nd->queue_count--;
-                }
-		else {
+		//if (nd->queue_count == 1) {
+                //	list_del_init(&rq->queuelist);
+                //	nd->queue_count--;
+                //}
+		//else {
 			list_for_each_entry(rq, &nd->queue, queuelist) {
 				if (rq == 0) {
 					printk("Add request rd failed in sstf_dispatch\n");
 					return 0;
 				}
-				sector_t sec = blk_rq_pos(rq);
+				sec = blk_rq_pos(rq);
         			if (prev_sector >= sec) {
         				temp = prev_sector - sec;
         			} 
@@ -58,7 +59,7 @@ static int sstf_dispatch(struct request_queue *q, int force)
 			prev_sector = blk_rq_sectors(near_rq) + blk_rq_pos(near_rq);
                 	list_del_init(&near_rq->queuelist);
                 	elv_dispatch_add_tail(q, near_rq); 
-		}
+		//}
 
 		/*NOOP Code*/
 		//rq = list_entry(nd->queue.next, struct request, queuelist);
@@ -75,12 +76,12 @@ static int sstf_dispatch(struct request_queue *q, int force)
 static void sstf_add_request(struct request_queue *q, struct request *rq)
 {
 	struct sstf_data *nd = q->elevator->elevator_data;
-	int req_added = 0;
+	//int req_added = 0;
 	printk("SSTF add pos %llu\n", (unsigned long long)blk_rq_pos(rq));
 	
 
 	list_add_tail(&rq->queuelist, &nd->queue);
-	printk("Queue count: %d\n", nd->queue_count);
+	//printk("Queue count: %d\n", nd->queue_count);
 }
 
 /* Mostly untouched*/

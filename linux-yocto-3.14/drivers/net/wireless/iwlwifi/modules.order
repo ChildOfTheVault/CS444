@@ -1,3 +1,0 @@
-kernel/drivers/net/wireless/iwlwifi/iwlwifi.ko
-kernel/drivers/net/wireless/iwlwifi/dvm/iwldvm.ko
-kernel/drivers/net/wireless/iwlwifi/mvm/iwlmvm.ko

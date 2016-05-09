@@ -1,5 +1,0 @@
-kernel/drivers/message/i2o/i2o_core.ko
-kernel/drivers/message/i2o/i2o_config.ko
-kernel/drivers/message/i2o/i2o_block.ko
-kernel/drivers/message/i2o/i2o_scsi.ko
-kernel/drivers/message/i2o/i2o_proc.ko
